@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-# New CCE Websevice
-=======
 # **New CCE Websevice**
 
 ## Collaborate in the Project
@@ -36,4 +33,3 @@ Take a look at these links to learn more about github and python.
 - https://www.learnpython.org/ (python)
 
 
->>>>>>> Stashed changes
