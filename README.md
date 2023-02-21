@@ -3,9 +3,13 @@
 ## Collaborate in the Project
 ### **Prerequisites**
 - Download python: https://www.python.org/downloads/
-- Download git: ``` xcode --install ```
 
 ### **Mac OS / Linux Setup**
+Download git: 
+```sh
+xcode --install 
+ ```
+
 Open the terminal and execute the following command:
 ```sh
 git clone https://github.com/hydecnc/Tengwar
@@ -26,10 +30,22 @@ Open command prompt and execute the following command to vertify git's installat
 git version
 ```
 
-### ***You are ready to go!***
+<br />
+<br />
+
+
+## ***You are ready to go!***
+
+Overall Structure of the Webservice:
+|               | Fontend | Backend    |
+|---------------|---------|------------|
+| **Language**  | python  | javascript |
+| **Framework** | django  | react      |
+
+
 
 Take a look at these links to learn more about github and python.
 - https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners (git)
 - https://www.learnpython.org/ (python)
-
-
+- https://docs.djangoproject.com/en/4.1/intro/tutorial01/ (django)
+- https://beta.reactjs.org/learn (react)
