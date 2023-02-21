@@ -8,7 +8,7 @@ class Student(models.Model):
     student_id = models.IntegerField("student id")
     grad_year = models.IntegerField("graduation year")
     hours_remaining = models.IntegerField("hours remaining")
-
+    
     def __str__(self):
         return self.name
 
@@ -25,6 +25,9 @@ class Event(models.Model):
     num_registered = models.IntegerField("num registered", null=True)
     
     students = models.ManyToManyField(Student)
+    
+    def get_students(self):
+        pass
     
     def __str__(self):
         return self.name
