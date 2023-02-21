@@ -4,6 +4,14 @@
 # Need to find a way to automatically update database whenever hours are updated
 
 # Necessary for the program to work, imports all libraries and sets up django
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tengwar.settings')
+
+application = get_wsgi_application()
+
 import django
 django.setup()
 from registration.models import Student

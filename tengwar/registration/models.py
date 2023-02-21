@@ -20,11 +20,11 @@ class Teacher(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True)
     event_date = models.DateTimeField("event date")
-    num_registered = models.IntegerField("num registered")
+    num_registered = models.IntegerField("num registered", null=True)
     
-    students = models.ForeignKey(Student, on_delete=models.CASCADE)
+    students = models.ManyToManyField(Student)
     
     def __str__(self):
         return self.name
