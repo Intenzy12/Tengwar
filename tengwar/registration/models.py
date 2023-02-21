@@ -24,5 +24,7 @@ class Event(models.Model):
     event_date = models.DateTimeField("event date")
     num_registered = models.IntegerField("num registered")
     
+    students = models.ForeignKey(Student, on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.name
