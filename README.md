@@ -27,7 +27,7 @@ Follow the instructions in the installer.
 
 Open command prompt and execute the following command to vertify git's installation.
 ```sh
-git version
+git --version
 ```
 
 <br />
