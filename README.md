@@ -3,6 +3,7 @@
 ## Collaborate in the Project
 ### **Prerequisites**
 - Download python: https://www.python.org/downloads/
+- Download Visual Studio Code: https://code.visualstudio.com/download
 
 ### **Mac OS / Linux Setup**
 Download git: 
