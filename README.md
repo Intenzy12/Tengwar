@@ -37,7 +37,7 @@ git version
 ## ***You are ready to go!***
 
 Overall Structure of the Webservice:
-|               | Fontend | Backend    |
+|               | Backend | Frontend   |
 |---------------|---------|------------|
 | **Language**  | python  | javascript |
 | **Framework** | django  | react      |
