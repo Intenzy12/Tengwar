@@ -12,14 +12,16 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tengwar.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tengwar.settings")
 
 application = get_wsgi_application()
 
 import django
+
 django.setup()
 from registration.models import Event
 import os
+
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 from datetime import datetime
@@ -30,7 +32,7 @@ from django.utils import timezone
 organization_name = ""
 event_name = ""
 event_description = ""
-event_date = datetime(1,1,1)
+event_date = datetime(1, 1, 1)
 is_recurring = False
 num_students_needed = 0
 num_registered = 0
@@ -54,8 +56,11 @@ prompts = [
     ["Number of students needed:", num_students_needed],
     ["Currently Registered Students (USAGE: Id1,Id2,Id3,Id4):", num_registered],
     ["Student Head's ID Number:", student_contact_id],
-    ["Event's Logo (USAGE: /images/logos/event_name.jpg):", logo_image],
-    ["Image of the Event (USAGE: /images/events/event_nameevent.jpg):", event_image]
+    ["Event's Logo (USAGE: images/logo/event_name.jpg):", logo_image],
+    [
+        "Image of the Event (USAGE: images/event_image//event_nameevent.jpg):",
+        event_image,
+    ],
 ]
 
 # Will need to change when frontend is done
@@ -64,6 +69,7 @@ for i in range(len(prompts)):
     prompts[i][1] = input()
 
 is_recurring = prompts[4][1]
+print(is_recurring)
 
 if is_recurring:
     print("Recursion Type:")
@@ -72,6 +78,22 @@ if is_recurring:
     if recurring_type == "Other":
         print("Specify (USAGE EX: Monday and Wednesday, Weekly):")
         recurring_type = input()
-    
-event = Event(organization_name = prompts[0][1], event_name = prompts[1][1], event_description = prompts[2][1], event_date = prompts[3][1], event_times = prompts[4][1], is_recurring = prompts[5][1], num_students_needed = prompts[6][1], num_registered = len(prompts[6][1].split(',')), students_registered = prompts[7][1], student_contact_id = prompts[8][1], logo_upload = prompts[9][1], event_pic_upload = prompts[10][1], recursion_type = recurring_type)
+students = []
+students.append(prompts[6][1].split(","))
+
+event = Event(
+    organization_name=prompts[0][1],
+    event_name=prompts[1][1],
+    event_description=prompts[2][1],
+    event_date=prompts[3][1],
+    event_times=prompts[4][1],
+    is_recurring=prompts[5][1],
+    num_students_needed=prompts[6][1],
+    num_registered=len(prompts[6][1].split(",")),
+    student_contact_id=prompts[8][1],
+    logo_upload=prompts[9][1],
+    event_pic_upload=prompts[10][1],
+    recursion_type=recurring_type,
+)
 event.save()
+event.students_registered.set(students)
