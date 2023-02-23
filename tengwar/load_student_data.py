@@ -3,6 +3,8 @@
 # Need to make sure that when updating database NO extra people are added
 # Need to find a way to automatically update database whenever hours are updated
 
+# This script loads the student's information into database using the csvfile that contains all the data
+
 # Necessary for the program to work, imports all libraries and sets up django
 import os
 
