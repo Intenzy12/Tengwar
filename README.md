@@ -3,6 +3,7 @@
 ## Collaborate in the Project
 ### **Prerequisites**
 - Download python: https://www.python.org/downloads/
+- Download Visual Studio Code: https://code.visualstudio.com/download
 
 ### **Mac OS / Linux Setup**
 Download git: 
@@ -27,7 +28,7 @@ Follow the instructions in the installer.
 
 Open command prompt and execute the following command to vertify git's installation.
 ```sh
-git version
+git --version
 ```
 
 <br />
@@ -37,7 +38,7 @@ git version
 ## ***You are ready to go!***
 
 Overall Structure of the Webservice:
-|               | Fontend | Backend    |
+|               | Backend | Frontend   |
 |---------------|---------|------------|
 | **Language**  | python  | javascript |
 | **Framework** | django  | react      |
