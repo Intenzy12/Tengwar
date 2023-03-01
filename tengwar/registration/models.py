@@ -39,6 +39,6 @@ class Event(models.Model):
 
     event_pic_upload = models.ImageField("event_image", upload_to="images/event_image/", null=True)
     logo_upload = models.ImageField("logo", upload_to="images/logo/", null=True)
-
+    
     def __str__(self):
         return self.event_name

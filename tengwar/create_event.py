@@ -34,10 +34,10 @@ event_name = ""
 event_description = ""
 event_date = datetime(1, 1, 1)
 is_recurring = False
-num_students_needed = 0
+num_required = 0
 num_registered = 0
 students_registered = []
-student_contact_id = 0
+student_lead = 0
 logo_image = ""
 event_image = ""
 
@@ -53,9 +53,9 @@ prompts = [
     ["Event Date (USAGE: YYYY-MM-DD):", event_date],
     ["Event Start-End Times (USAGE: STARTTIME AM/PM-ENDTIME AM/PM)", start_end_time],
     ["Is it recurring (USAGE: True/False):", is_recurring],
-    ["Number of students needed:", num_students_needed],
+    ["Number of students needed:", num_required],
     ["Currently Registered Students (USAGE: Id1,Id2,Id3,Id4):", num_registered],
-    ["Student Head's ID Number:", student_contact_id],
+    ["Student Head's ID Number:", student_lead],
     ["Event's Logo (USAGE: images/logo/event_name.jpg):", logo_image],
     [
         "Image of the Event (USAGE: images/event_image//event_nameevent.jpg):",
@@ -88,9 +88,9 @@ event = Event(
     event_date=prompts[3][1],
     event_times=prompts[4][1],
     is_recurring=prompts[5][1],
-    num_students_needed=prompts[6][1],
+    num_required=prompts[6][1],
     num_registered=len(prompts[6][1].split(",")),
-    student_contact_id=prompts[8][1],
+    student_lead=prompts[8][1],
     logo_upload=prompts[9][1],
     event_pic_upload=prompts[10][1],
     recursion_type=recurring_type,
