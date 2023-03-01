@@ -14,5 +14,4 @@ class EventAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(Event, EventAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(Student, StudentAdmin)
+# admin.site.register(Student, StudentAdmin)
