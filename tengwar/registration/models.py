@@ -8,7 +8,7 @@ class Student(models.Model):
     student_id = models.IntegerField("student id")
     grad_year = models.IntegerField("graduation year")
     hours_remaining = models.IntegerField("hours remaining")
-    
+
     def __str__(self):
         return self.name
 
@@ -17,17 +17,32 @@ class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, null=True)
     
+    def __str__(self):
+        return self.name
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    event_date = models.DateTimeField("event date")
-    num_registered = models.IntegerField("num registered", null=True)
+    organization_name = models.CharField(max_length=100, null=True)
+    event_name = models.CharField(max_length=100, null=True)
+
+    event_description = models.CharField(max_length=250, null=True)
+    event_time = models.DateTimeField("event date", null=True, default=None)
+    event_duration = models.TimeField("event duration", null=True, default=None)
+    event_end_time = models.TimeField(max_length=20, null=True, default=None)
+
+    is_recurring = models.BooleanField("is recurring", default=False)
+    recursion_type = models.CharField(max_length=100, null=True)
+
+    num_required = models.IntegerField("num required", default=0)
+    num_registered = models.IntegerField("num registered", default=0)
+    students_registered = models.ManyToManyField(Student)
+    # student_contact_id = models.IntegerField("student contact", null=True)
+    student_lead = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student_lead", null=True)
     
-    students = models.ManyToManyField(Student)
-    
-    def get_students(self):
-        pass
+    advisor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+
+    event_pic_upload = models.ImageField("event_image", upload_to="images/event_image/", null=True)
+    logo_upload = models.ImageField("logo", upload_to="images/logo/", null=True)
     
     def __str__(self):
-        return self.name
+        return self.event_name
