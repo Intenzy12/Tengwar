@@ -16,6 +16,9 @@ class Student(models.Model):
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, null=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Event(models.Model):
@@ -23,8 +26,9 @@ class Event(models.Model):
     event_name = models.CharField(max_length=100, null=True)
 
     event_description = models.CharField(max_length=250, null=True)
-    event_date = models.DateTimeField("event date", null=True)
-    event_times = models.CharField(max_length=20, null=True)
+    event_time = models.DateTimeField("event date", null=True, default=None)
+    event_duration = models.TimeField("event duration", null=True, default=None)
+    event_end_time = models.TimeField(max_length=20, null=True, default=None)
 
     is_recurring = models.BooleanField("is recurring", default=False)
     recursion_type = models.CharField(max_length=100, null=True)

@@ -1,99 +1,94 @@
-# Need to find a way to format Datetime to allow timezones
-# Need to find a way to input time of event, CSL hours will be added based on startime and endtime
-# For models, the current isrecurring doesn't support how it is recurring, for example, some events may be recurring every week, some bi-weekly etc. Furthermore, some events, say Techo, is weekend long, so support will have to be added for events there too
-# There needs to be a way to create organizations such that if the event is part of an organization, the organization will be Drop-Down in FRONTEND to eliminate margins of error
-# The current version DOES NOT support days off
-
-
-# This script adds events to the SQLite Database (currently via command-line)
-
-# Necessary for the program to work, imports all libraries and sets up django
+# DO NOT DELETE
 import os
-
 from django.core.wsgi import get_wsgi_application
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tengwar.settings")
-
-application = get_wsgi_application()
-
 import django
 
-django.setup()
-from registration.models import Event
-import os
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tengwar.settings")
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+application = get_wsgi_application()
+django.setup()
 
-from datetime import datetime
+
+
+from registration.models import Event, Student, Teacher
+from datetime import datetime, time
 from django.utils import timezone
+import pytz
 
-# Will need to change organization name, students, and student contact id to pointers
-# This will be done once frontend is done
-organization_name = ""
-event_name = ""
-event_description = ""
-event_date = datetime(1, 1, 1)
-is_recurring = False
-num_required = 0
-num_registered = 0
-students_registered = []
-student_lead = 0
-logo_image = ""
-event_image = ""
-
-recurring_type = ""
-start_end_time = ""
-
-# Will need to change so that info is recieved from frontend
-# Will need to add an auto-formatting/formatting-check once frontend is done
-prompts = [
-    ["Organization Name:", organization_name],
-    ["Event Name:", event_name],
-    ["Event Description:", event_description],
-    ["Event Date (USAGE: YYYY-MM-DD):", event_date],
-    ["Event Start-End Times (USAGE: STARTTIME AM/PM-ENDTIME AM/PM)", start_end_time],
-    ["Is it recurring (USAGE: True/False):", is_recurring],
-    ["Number of students needed:", num_required],
-    ["Currently Registered Students (USAGE: Id1,Id2,Id3,Id4):", num_registered],
-    ["Student Head's ID Number:", student_lead],
-    ["Event's Logo (USAGE: images/logo/event_name.jpg):", logo_image],
-    [
-        "Image of the Event (USAGE: images/event_image//event_nameevent.jpg):",
-        event_image,
-    ],
+data = {}
+data_keys = [
+    "organization name",
+    "event name",
+    "event description",
+    "event date",
+    "event start time",
+    "event end time",
+    "is recurring",
+    "num required",
+    "students registered",
+    "student lead",
+    "advisor",
+    "event logo",
+    "event image",
 ]
 
-# Will need to change when frontend is done
-for i in range(len(prompts)):
-    print(prompts[i][0])
-    prompts[i][1] = input()
+prompts = [
+    "Organization Name:\n",
+    "Event Name:\n",
+    "Event Description:\n",
+    "Event Date (USAGE: YYYY/MM/DD):\n",
+    "Event Start Time (USAGE: hh:mm):\n",
+    "Event End Time (USAGE: hh:mm):\n",
+    "Is it recurring (USAGE: Yes/No):\n",
+    "Number of students required:\n",
+    "Currently Registered Students (USAGE: Id1, Id2, Id3, ...):\n",
+    "Student Head's Id Number:\n",
+    "Teacher Advisor's Email:\n",
+    "Event's Logo (USAGE: EVENTNAME.jpg):\n",
+    "Image of the Event (USAGE: EVENTNAME.jpg):\n",
+]
 
-is_recurring = prompts[4][1]
-print(is_recurring)
+# Take input for all the required options
+for prompt, key in zip(prompts, data_keys):
+    data[key] = input(prompt)
+    
+# Prompt more options if there is recursion in event
+if data["is recurring"].title() == "Yes":
+    data["is recurring"] = True
+else:
+    data["is recurring"] = False
 
-if is_recurring:
-    print("Recursion Type:")
-    print("Types: Weekly, Bi-Weekly, Monthly, Other")
-    recurring_type = input()
-    if recurring_type == "Other":
-        print("Specify (USAGE EX: Monday and Wednesday, Weekly):")
-        recurring_type = input()
-students = []
-students.append(prompts[6][1].split(","))
+recursion_type = ""
+if data["is recurring"]:
+    print("Recursion Type: ")
+    recursion_type = input("Types: Weekly, Bi-Weekly, Monthly, Other \n")
+    
+    if recursion_type == "Other":
+        recursion_type = input("Specify (USAGE EX: Monday and Wednesday, Weekly):\n")
 
-event = Event(
-    organization_name=prompts[0][1],
-    event_name=prompts[1][1],
-    event_description=prompts[2][1],
-    event_date=prompts[3][1],
-    event_times=prompts[4][1],
-    is_recurring=prompts[5][1],
-    num_required=prompts[6][1],
-    num_registered=len(prompts[6][1].split(",")),
-    student_lead=prompts[8][1],
-    logo_upload=prompts[9][1],
-    event_pic_upload=prompts[10][1],
-    recursion_type=recurring_type,
+data["recursion type"] = recursion_type
+
+# change start and end time to datetime obejct
+data["event start time"] = datetime.strptime(f"{data['event date']} {data['event start time']}", "%Y/%m/%d %H:%M").replace(tzinfo=pytz.timezone("America/Mexico_City"))
+data["event end time"] = datetime.strptime(f"{data['event date']} {data['event end time']}", "%Y/%m/%d %H:%M").replace(tzinfo=pytz.timezone("America/Mexico_City"))
+timezone.localtime()
+
+# declare the event object
+x = Event(
+    organization_name=data["organization name"],
+    event_name=data["event name"],
+    event_description=data["event description"],
+    event_time=data["event start time"],
+    event_duration=(datetime.min + (data["event end time"] - data["event start time"])).time(),
+    event_end_time=data["event end time"].time(),
+    is_recurring=data["is recurring"],
+    num_required=int(data["num required"]),
+    num_registered=len(data["students registered"].split(", ")),
+    student_lead=Student.objects.filter(student_id=int(data["student lead"]))[0],
+    advisor=Teacher.objects.filter(email=data["advisor"])[0],
+    logo_upload=data["event logo"],
+    event_pic_upload=data["event image"],
+    recursion_type=data["recursion type"]
 )
-event.save()
-event.students_registered.set(students)
+
+x.save()
