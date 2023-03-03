@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Event, Student
+from .models import Event, Student, Teacher
 
 class StudentAdmin(admin.ModelAdmin):
   list_display = ['student_id', 'name', 'email', 'grad_year', 'hours_remaining']
@@ -16,3 +16,4 @@ class EventAdmin(admin.ModelAdmin):
 
 admin.site.register(Event, EventAdmin)
 admin.site.register(Student, StudentAdmin)
+admin.site.register(Teacher)

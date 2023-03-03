@@ -17,6 +17,8 @@ class Teacher(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100, null=True)
     
+    gender = models.CharField(max_length=6, null=True)
+    
     def __str__(self):
         return self.name
 
