@@ -15,7 +15,7 @@ from datetime import datetime, time
 from django.utils import timezone
 import pytz
 
-data = {}
+data = {"students registered": "",}
 data_keys = [
     "organization name",
     "event name",
@@ -73,6 +73,8 @@ data["event start time"] = datetime.strptime(f"{data['event date']} {data['event
 data["event end time"] = datetime.strptime(f"{data['event date']} {data['event end time']}", "%Y/%m/%d %H:%M").replace(tzinfo=pytz.timezone("America/Mexico_City"))
 timezone.localtime()
 
+students = data["students registered"].split(", ")
+
 # declare the event object
 x = Event(
     organization_name=data["organization name"],
@@ -83,7 +85,7 @@ x = Event(
     event_end_time=data["event end time"].time(),
     is_recurring=data["is recurring"],
     num_required=int(data["num required"]),
-    num_registered=len(data["students registered"].split(", ")),
+    # num_registered=len(data["students registered"].split(", ")),
     student_lead=Student.objects.filter(student_id=int(data["student lead"]))[0],
     advisor=Teacher.objects.filter(email=data["advisor"])[0],
     logo_upload=data["event logo"],
@@ -92,3 +94,6 @@ x = Event(
 )
 
 x.save()
+
+for id in students:
+    x.students_registered.add(Student.objects.filter(student_id=id)[0])

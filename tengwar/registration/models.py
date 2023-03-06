@@ -22,6 +22,10 @@ class Teacher(models.Model):
     def __str__(self):
         return self.name
 
+class Organization(models.Model):
+    name = models.CharField(max_length=50)
+    students = models.ManyToManyField(Student)
+
 
 class Event(models.Model):
     organization_name = models.CharField(max_length=100, null=True)
@@ -36,9 +40,9 @@ class Event(models.Model):
     recursion_type = models.CharField(max_length=100, null=True)
 
     num_required = models.IntegerField("num required", default=0)
-    num_registered = models.IntegerField("num registered", default=0)
+    # num_registered = models.IntegerField("num registered", default=0)
     students_registered = models.ManyToManyField(Student)
-    # student_contact_id = models.IntegerField("student contact", null=True)
+
     student_lead = models.ForeignKey(Student, on_delete=models.CASCADE, related_name="student_lead", null=True)
     
     advisor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)

@@ -8,7 +8,7 @@ application = get_wsgi_application()
 django.setup()
 
 from registration.models import Teacher
-import csv
+
 
 with open("./teachers.csv", 'r') as data:
     teachers = data.readlines()[1:]
