@@ -61,7 +61,7 @@ else:
 recursion_type = ""
 if data["is recurring"]:
     print("Recursion Type: ")
-    recursion_type = input("Types: Weekly, Bi-Weekly, Monthly, Other \n")
+    recursion_type = input("Types: Weekly, Bi-Weekly, Monthly \n")
     
     if recursion_type == "Other":
         recursion_type = input("Specify (USAGE EX: Monday and Wednesday, Weekly):\n")
