@@ -1,4 +1,4 @@
-# TO DO:
+# TODO:
 # Need to make sure that when updating database ONLY the people whose hours have changed are updated
 # Need to make sure that when updating database NO extra people are added
 # Need to find a way to automatically update database whenever hours are updated
