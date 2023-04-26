@@ -4,8 +4,7 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
-
+*.so 
 # Distribution / packaging
 .Python
 build/
@@ -161,3 +160,8 @@ cython_debug/
 
 # VsCode
 .vscode
+
+# nix
+.envrc
+.direnv
+shell.nix
